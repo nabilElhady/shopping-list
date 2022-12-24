@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Last.css";
 import useHover from "@react-hook/hover";
 import { styles } from "@dash-ui/styles";
@@ -19,7 +19,7 @@ export const Last = ({
   total,
 }) => {
   const disabled = !state ? `disabled` : ``;
-
+  const [items2, setitems2] = useState();
   const def = text?.length || 0;
 
   const change = () => {
@@ -41,25 +41,24 @@ export const Last = ({
     );
   };
   const negative = () => {
-    settarr(
-      arr.map((item) => {
-        if (item.id === elem.id) {
-          if (items > 0) {
-            settotal(total - 1);
-            return {
-              ...item,
-              items: items - 1,
-            };
-          } else {
-            const newitems = arr.filter((item) => item.id !== elem.id);
-            return {
-              newitems,
-            };
+    if (items > 0) {
+      settarr(
+        arr.map((item) => {
+          if (item.id === elem.id) {
+            if (items > 0) {
+              settotal(total - 1);
+              return {
+                ...item,
+                items: items - 1,
+              };
+            }
           }
-        }
-        return item;
-      })
-    );
+          return item;
+        })
+      );
+    } else {
+      settarr(arr.filter((item) => item.id !== elem.id));
+    }
   };
   {
     if (def) {
